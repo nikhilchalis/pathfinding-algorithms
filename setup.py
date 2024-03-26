@@ -37,7 +37,7 @@ class Node:
         self.colour = NODE_STATES[state]
         self.neighbours = []
         self.distance = float('inf')
-        self.prev = None
+        self.previous = None
     
     def draw(self, screen):
         pg.draw.rect(screen, self.colour, (self.x, self.y, NODE_SIZE, NODE_SIZE))
@@ -51,6 +51,24 @@ class Node:
 
     def is_barrier(self) -> bool:
         return self.state == 'barrier'
+
+    def update_neighbours(self, grid):
+        
+        if self.row < ROWS - 1 and not grid[self.row + 1][self.col].is_barrier():
+            # BELOW
+            self.neighbours.append(grid[self.row + 1][self.col])
+        
+        elif self.row > 0 and not grid[self.row - 1][self.col].is_barrier():
+            # ABOVE
+            self.neighbours.append(grid[self.row - 1][self.col])
+        
+        elif self.col < COLS - 1 and not grid[self.row][self.col + 1].is_barrier():
+            # RIGHT
+            self.neighbours.append(grid[self.row][self.col + 1])
+
+        elif self.col > 0 and not grid[self.row][self.col - 1].is_barrier():
+            # LEFT
+            self.neighbours.append(grid[self.row][self.col - 1])
 
 
 def make_grid(barrier_chance=0.25):
