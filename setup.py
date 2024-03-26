@@ -53,7 +53,7 @@ class Node:
         return self.state == 'barrier'
 
 
-def make_grid(barrier_chance=0.3):
+def make_grid(barrier_chance=0.25):
     grid = []
     for i in range(COLS):
         grid.append([])
