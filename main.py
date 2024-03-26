@@ -12,29 +12,42 @@ def main():
     grid = make_grid()
     display_grid(screen, grid)
 
+    search = False
+    start_created = False
+    end_created = False
+
     running = True
     while running:
         for event in pg.event.get():
             if event.type == pg.QUIT:
                 running = False
+            elif event.type == pg.KEYDOWN:
+                if event.key == pg.K_RETURN:
+                    if start_created and end_created and not search:
+                        search = True
+                        print("search started")
+
 
         if pg.mouse.get_pressed()[0]:
             mouse_x, mouse_y = pg.mouse.get_pos()
 
             row = mouse_y // GRID_SIZE
             col = mouse_x // GRID_SIZE
-
-            if grid[col][row].return_state() == 'free' or grid[col][row].return_state() == 'start':
-                grid[col][row].change_state('end')
+            if not start_created:
+                if grid[col][row].return_state() == 'free' or grid[col][row].return_state() == 'start':
+                    grid[col][row].change_state('end')
+                    start_created = True
         
         if pg.mouse.get_pressed()[2]:
             mouse_x, mouse_y = pg.mouse.get_pos()
 
             row = mouse_y // GRID_SIZE
             col = mouse_x // GRID_SIZE
-
-            if grid[col][row].return_state() == 'free' or grid[col][row].return_state() == 'end':
-                grid[col][row].change_state('start')
+            if not end_created:
+                if grid[col][row].return_state() == 'free' or grid[col][row].return_state() == 'end':
+                    grid[col][row].change_state('start')
+                    end_created = True
+        
         
         screen.fill(BLACK)
         clock.tick(FPS)
