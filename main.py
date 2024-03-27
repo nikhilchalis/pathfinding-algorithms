@@ -1,6 +1,7 @@
 # implement here
 import pygame as pg
 from setup import *
+from dijkstra import *
 
 def main():
     pg.init()
@@ -15,6 +16,8 @@ def main():
     search = False
     start_created = False
     end_created = False
+    start = None
+    end = None
 
     running = True
     while running:
@@ -26,6 +29,7 @@ def main():
                     if start_created and end_created and not search:
                         search = True
                         print("search started")
+                        dijkstra(screen, grid, start=start, end=end)
 
 
         if pg.mouse.get_pressed()[0]:
@@ -34,9 +38,10 @@ def main():
             row = mouse_y // GRID_SIZE
             col = mouse_x // GRID_SIZE
             if not start_created:
-                if grid[col][row].return_state() == 'free' or grid[col][row].return_state() == 'start':
-                    grid[col][row].change_state('end')
+                if grid[col][row].return_state() == 'free' or grid[col][row].return_state() == 'end':
+                    grid[col][row].change_state('start')
                     start_created = True
+                    start = grid[col][row]
         
         if pg.mouse.get_pressed()[2]:
             mouse_x, mouse_y = pg.mouse.get_pos()
@@ -44,11 +49,12 @@ def main():
             row = mouse_y // GRID_SIZE
             col = mouse_x // GRID_SIZE
             if not end_created:
-                if grid[col][row].return_state() == 'free' or grid[col][row].return_state() == 'end':
-                    grid[col][row].change_state('start')
+                if grid[col][row].return_state() == 'free' or grid[col][row].return_state() == 'start':
+                    grid[col][row].change_state('end')
                     end_created = True
+                    end = grid[col][row]
         
-        
+
         screen.fill(BLACK)
         clock.tick(FPS)
         display_grid(screen, grid)

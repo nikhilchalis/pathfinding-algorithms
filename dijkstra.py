@@ -2,8 +2,61 @@ from setup import *
 
 EDGE_DISTANCE = 1
 
-def dijkstra(grid, start):
-    Q = []
-    for node in start.neighbours:
-        node.distance = float('inf')
-        node.previous = None
+'''
+Pseudocode
+
+procedure Dijkstra(G, s)
+    for each vertex v in G
+        dist[v] := infinity
+        prev[v] := nil
+    dist[s] := 0
+    Q := {s}
+    while Q is not empty
+        u := vertex in Q with minimum dist[u]
+        remove u from Q
+        for each vertex v adjacent to u
+            if dist[v] > dist[u] + weight(u, v)
+                dist[v] := dist[u] + weight(u, v)
+                prev[v] := u
+'''
+
+def dijkstra(screen, grid, start, end):
+    # initialising
+    
+    priority_Q = []
+    distances = [] # this array will return the distance and path from each 
+    for row in grid:
+        for node in row:
+            node.distance = float('inf')
+            node.previous = None
+    start.distance = 0
+
+    priority_Q.append(start)
+
+    while len(priority_Q):
+        u_node = min(priority_Q, key=lambda node: node.distance)
+        if u_node == end:
+            break
+        u_node.change_state('search')
+        display_grid(screen, grid)
+        pg.display.update()
+        priority_Q.remove(u_node)
+
+    '''
+    for row in grid:
+        for node in row:
+            if node.row == start.row:
+                node.change_state('search')
+                display_grid(screen, grid)
+                pg.display.update()
+    '''
+    
+
+
+
+
+
+
+    
+
+            
