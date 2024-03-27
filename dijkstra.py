@@ -29,6 +29,7 @@ def dijkstra(screen, grid, start, end):
         for node in row:
             node.distance = float('inf')
             node.previous = None
+            priority_Q.append(node)
     start.distance = 0
 
     priority_Q.append(start)
@@ -41,6 +42,16 @@ def dijkstra(screen, grid, start, end):
         display_grid(screen, grid)
         pg.display.update()
         priority_Q.remove(u_node)
+
+        u_node.update_neighbours(grid)
+        u_neighbours = u_node.neighbours
+
+        for neighbour in u_neighbours:
+            if neighbour.distance > u_node.distance + EDGE_DISTANCE:
+                neighbour.distance = u_node.distance + EDGE_DISTANCE
+                neighbour.previous = u_node
+        
+        print('here')
 
     '''
     for row in grid:
