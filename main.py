@@ -70,7 +70,7 @@ def main():
         
 
         screen.fill(BLACK)
-        clock.tick(FPS)
+        #clock.tick(FPS)
         display_grid(screen, grid)
         pg.display.update()
         

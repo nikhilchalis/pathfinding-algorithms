@@ -63,7 +63,7 @@ def dijkstra(screen, grid, start, end):
                     neighbour.distance = u_node.distance + EDGE_DISTANCE
                     neighbour.previous = u_node
         
-        clock.tick(FPS)
+       #clock.tick(FPS)
 
     if end.previous == None:
         print('no path found')
