@@ -69,39 +69,6 @@ def dijkstra(screen, grid, start, end):
             prev = prev.previous
             path.append(prev)
 
-
-    '''
-    while len(priority_Q):
-        u_node = min(priority_Q, key=lambda node: node.distance)
-        if u_node == end:
-            print('at end')
-            break
-        u_node.change_state('search')
-        display_grid(screen, grid)
-        pg.display.update()
-        priority_Q.remove(u_node)
-
-        u_node.update_neighbours(grid)
-        u_neighbours = u_node.neighbours
-
-        for neighbour in u_neighbours:
-            neighbour.change_state('current')
-            if neighbour.distance > u_node.distance + EDGE_DISTANCE:
-                neighbour.distance = u_node.distance + EDGE_DISTANCE
-                neighbour.previous = u_node
-        
-        print('here')
-
-    print('now here')
-    '''
-    '''
-    for row in grid:
-        for node in row:
-            if node.row == start.row:
-                node.change_state('search')
-                display_grid(screen, grid)
-                pg.display.update()
-    '''
     
 
 
