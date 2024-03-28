@@ -41,6 +41,9 @@ def main():
                     end_created = False
                     start = None
                     end = None
+                elif event.key == pg.K_g and not start_created and not end_created:
+                    grid = make_grid()
+                    display_grid(screen, grid)
 
 
         if pg.mouse.get_pressed()[0]:

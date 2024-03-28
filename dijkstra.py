@@ -1,4 +1,5 @@
 from setup import *
+import pygame as pg
 
 EDGE_DISTANCE = 1
 
@@ -22,9 +23,8 @@ procedure Dijkstra(G, s)
 
 def dijkstra(screen, grid, start, end):
     # initialising
-    
+    clock = pg.time.Clock()
     priority_Q = []
-    distances = [] # this array will return the distance and path from each
     visited = set()
     for row in grid:
         for node in row:
@@ -35,7 +35,12 @@ def dijkstra(screen, grid, start, end):
     start.distance = 0
 
     priority_Q.append(start)
+    # FOR DEBUGGING
+    # u_node = min(priority_Q, key=lambda node: node.distance)
+    # u_node.update_neighbours(grid)
 
+
+    
     while len(priority_Q):
         u_node = min(priority_Q, key=lambda node: node.distance)
         if u_node.state != 'start' and u_node.state != 'end':
@@ -57,6 +62,8 @@ def dijkstra(screen, grid, start, end):
                 if neighbour.distance > u_node.distance + EDGE_DISTANCE:
                     neighbour.distance = u_node.distance + EDGE_DISTANCE
                     neighbour.previous = u_node
+        
+        clock.tick(FPS)
 
     if end.previous == None:
         print('no path found')
@@ -68,6 +75,7 @@ def dijkstra(screen, grid, start, end):
             prev.change_state('path')
             prev = prev.previous
             path.append(prev)
+    
 
     
 

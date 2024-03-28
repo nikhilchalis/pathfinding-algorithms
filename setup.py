@@ -10,12 +10,16 @@ GREEN = (0, 255, 0)
 GREY = (128, 128, 128)
 YELLOW = (255, 255, 0)
 LIGHT_GREY = (211, 211, 211)
+DARK_GREEN = (1, 50, 32)
+LIGHT_GREEN = (144, 238, 144)
+PURPLE = (128, 0, 128)
+PINK = (255, 192, 203)
 
 GRID_SIZE = 20
 NODE_SIZE = 19
-ROWS = 10
-COLS = 20
-FPS = 25
+ROWS = 40
+COLS = 40
+FPS = 60
 
 
 NODE_STATES = {
@@ -25,7 +29,11 @@ NODE_STATES = {
     'path': YELLOW,
     'search': GREY,
     'free': WHITE,
-    'current': LIGHT_GREY
+    'current': LIGHT_GREY,
+    'debug1': DARK_GREEN,
+    'debug2': LIGHT_GREEN,
+    'debug3': PURPLE,
+    'debug4': PINK
 }
 
 
@@ -55,8 +63,7 @@ class Node:
         return self.state == 'barrier'
 
     def update_neighbours(self, grid):
-        
-        if self.row < ROWS - 1 and not grid[self.row + 1][self.col].is_barrier():
+        if self.row < COLS - 1 and not grid[self.row + 1][self.col].is_barrier():
             # BELOW
             self.neighbours.append(grid[self.row + 1][self.col])
         
@@ -64,7 +71,7 @@ class Node:
             # ABOVE
             self.neighbours.append(grid[self.row - 1][self.col])
 
-        if self.col < COLS - 1 and not grid[self.row][self.col + 1].is_barrier():
+        if self.col < ROWS - 1 and not grid[self.row][self.col + 1].is_barrier():
             # RIGHT
             self.neighbours.append(grid[self.row][self.col + 1])
 
