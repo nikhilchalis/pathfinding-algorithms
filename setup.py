@@ -9,11 +9,12 @@ RED = (255, 0, 0)
 GREEN = (0, 255, 0)
 GREY = (128, 128, 128)
 YELLOW = (255, 255, 0)
+LIGHT_GREY = (211, 211, 211)
 
 GRID_SIZE = 20
 NODE_SIZE = 19
-ROWS = 40
-COLS = 60
+ROWS = 10
+COLS = 20
 FPS = 25
 
 
@@ -23,7 +24,8 @@ NODE_STATES = {
     'barrier': BLACK,
     'path': YELLOW,
     'search': GREY,
-    'free': WHITE
+    'free': WHITE,
+    'current': LIGHT_GREY
 }
 
 
@@ -58,15 +60,15 @@ class Node:
             # BELOW
             self.neighbours.append(grid[self.row + 1][self.col])
         
-        elif self.row > 0 and not grid[self.row - 1][self.col].is_barrier():
+        if self.row > 0 and not grid[self.row - 1][self.col].is_barrier():
             # ABOVE
             self.neighbours.append(grid[self.row - 1][self.col])
-        
-        elif self.col < COLS - 1 and not grid[self.row][self.col + 1].is_barrier():
+
+        if self.col < COLS - 1 and not grid[self.row][self.col + 1].is_barrier():
             # RIGHT
             self.neighbours.append(grid[self.row][self.col + 1])
 
-        elif self.col > 0 and not grid[self.row][self.col - 1].is_barrier():
+        if self.col > 0 and not grid[self.row][self.col - 1].is_barrier():
             # LEFT
             self.neighbours.append(grid[self.row][self.col - 1])
 

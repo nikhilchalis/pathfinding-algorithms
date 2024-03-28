@@ -28,8 +28,19 @@ def main():
                 if event.key == pg.K_RETURN:
                     if start_created and end_created and not search:
                         search = True
-                        print("search started")
                         dijkstra(screen, grid, start=start, end=end)
+                elif event.key == pg.K_r and start_created and end_created:
+                    for row in grid:
+                        for node in row:
+                            if not node.is_barrier():
+                                node.change_state('free')
+                                node.distance = float('inf')
+                                node.previous = None
+                    search = False
+                    start_created = False
+                    end_created = False
+                    start = None
+                    end = None
 
 
         if pg.mouse.get_pressed()[0]:
