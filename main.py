@@ -2,6 +2,7 @@
 import pygame as pg
 from setup import *
 from dijkstra import *
+from astar import *
 
 def main():
     pg.init()
@@ -28,7 +29,8 @@ def main():
                 if event.key == pg.K_RETURN:
                     if start_created and end_created and not search:
                         search = True
-                        dijkstra(screen, grid, start=start, end=end)
+                        #dijkstra(screen, grid, start=start, end=end)
+                        astar(screen, grid, start=start, end=end)
                 elif event.key == pg.K_r and start_created and end_created:
                     for row in grid:
                         for node in row:
