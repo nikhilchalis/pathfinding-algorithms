@@ -10,7 +10,7 @@ def main():
     clock = pg.time.Clock()
     screen.fill(BLACK)
 
-    grid = make_grid()
+    grid = make_grid(barrier_chance=BARRIER_CHANCE)
     display_grid(screen, grid)
 
     search = False
@@ -42,7 +42,7 @@ def main():
                     start = None
                     end = None
                 elif event.key == pg.K_g and not start_created and not end_created:
-                    grid = make_grid()
+                    grid = make_grid(barrier_chance=BARRIER_CHANCE)
                     display_grid(screen, grid)
 
 
@@ -67,7 +67,7 @@ def main():
                     grid[col][row].change_state('end')
                     end_created = True
                     end = grid[col][row]
-        
+         
 
         screen.fill(BLACK)
         #clock.tick(FPS)

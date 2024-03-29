@@ -45,6 +45,7 @@ def dijkstra(screen, grid, start, end):
         u_node = min(priority_Q, key=lambda node: node.distance)
         if u_node.state != 'start' and u_node.state != 'end':
             u_node.change_state('current')
+            u_node.draw(screen)
         priority_Q.remove(u_node)
         visited.add(u_node)
 
@@ -56,7 +57,8 @@ def dijkstra(screen, grid, start, end):
             if neighbour not in visited:
                 if neighbour is not end:
                     neighbour.change_state('search')
-                display_grid(screen, grid)
+                neighbour.draw(screen)
+                #display_grid(screen, grid)
                 pg.display.update()
 
                 if neighbour.distance > u_node.distance + EDGE_DISTANCE:

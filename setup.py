@@ -17,9 +17,10 @@ PINK = (255, 192, 203)
 
 GRID_SIZE = 20
 NODE_SIZE = 19
-ROWS = 40
-COLS = 40
+ROWS = 30
+COLS = 60
 FPS = 60
+BARRIER_CHANCE = 0.35
 
 
 NODE_STATES = {
@@ -51,7 +52,7 @@ class Node:
     
     def draw(self, screen):
         pg.draw.rect(screen, self.colour, (self.x, self.y, NODE_SIZE, NODE_SIZE))
-    
+
     def change_state(self, new_state):
         self.state = new_state
         self.colour = NODE_STATES[new_state]
