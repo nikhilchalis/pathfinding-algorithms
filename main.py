@@ -6,7 +6,7 @@ from astar import *
 
 def main():
     pg.init()
-    screen = pg.display.set_mode((COLS * GRID_SIZE, ROWS * GRID_SIZE))
+    screen = pg.display.set_mode((ACTUAL_WIDTH, ACTUAL_HEIGHT))
     pg.display.set_caption("Pathfinding algorithm visualisations")
     clock = pg.time.Clock()
     screen.fill(BLACK)
@@ -19,6 +19,7 @@ def main():
     end_created = False
     start = None
     end = None
+    use_dijkstra = False
 
     running = True
     while running:
@@ -29,8 +30,10 @@ def main():
                 if event.key == pg.K_RETURN:
                     if start_created and end_created and not search:
                         search = True
-                        #dijkstra(screen, grid, start=start, end=end)
-                        astar(screen, grid, start=start, end=end)
+                        if use_dijkstra:
+                            dijkstra(screen, grid, start=start, end=end)
+                        else:
+                            astar(screen, grid, start=start, end=end, search_aggression=2)
                 elif event.key == pg.K_r and start_created and end_created:
                     for row in grid:
                         for node in row:
@@ -51,8 +54,8 @@ def main():
         if pg.mouse.get_pressed()[0]:
             mouse_x, mouse_y = pg.mouse.get_pos()
 
-            row = mouse_y // GRID_SIZE
-            col = mouse_x // GRID_SIZE
+            row = (mouse_y - HEIGHT_OFFSET_PX) // GRID_SIZE
+            col = (mouse_x - WIDTH_OFFSET_PX) // GRID_SIZE
             if not start_created:
                 if grid[col][row].return_state() == 'free' or grid[col][row].return_state() == 'end':
                     grid[col][row].change_state('start')
@@ -62,8 +65,8 @@ def main():
         if pg.mouse.get_pressed()[2]:
             mouse_x, mouse_y = pg.mouse.get_pos()
 
-            row = mouse_y // GRID_SIZE
-            col = mouse_x // GRID_SIZE
+            row = (mouse_y - HEIGHT_OFFSET_PX) // GRID_SIZE
+            col = (mouse_x - WIDTH_OFFSET_PX) // GRID_SIZE
             if not end_created:
                 if grid[col][row].return_state() == 'free' or grid[col][row].return_state() == 'start':
                     grid[col][row].change_state('end')

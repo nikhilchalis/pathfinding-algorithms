@@ -17,11 +17,15 @@ PINK = (255, 192, 203)
 
 GRID_SIZE = 20
 NODE_SIZE = 19
-ROWS = 30
-COLS = 60
+ROWS = 60
+COLS = 40
 FPS = 60
-BARRIER_CHANCE = 0.4
-
+BARRIER_CHANCE = 0.35
+EXTRA_WIDTH_PX = 200
+WIDTH_OFFSET_PX = 50
+HEIGHT_OFFSET_PX = 50
+ACTUAL_WIDTH = COLS * GRID_SIZE + 2*WIDTH_OFFSET_PX + EXTRA_WIDTH_PX
+ACTUAL_HEIGHT = ROWS * GRID_SIZE + 2*HEIGHT_OFFSET_PX
 
 NODE_STATES = {
     'start': GREEN,
@@ -42,8 +46,8 @@ class Node:
     def __init__(self, row, col, state='free'):
         self.row = row
         self.col = col
-        self.x = row * GRID_SIZE
-        self.y = col * GRID_SIZE
+        self.x = row * GRID_SIZE + WIDTH_OFFSET_PX
+        self.y = col * GRID_SIZE + HEIGHT_OFFSET_PX
         self.state = state
         self.colour = NODE_STATES[state]
         self.neighbours = []
