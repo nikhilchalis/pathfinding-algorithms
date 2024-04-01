@@ -16,11 +16,11 @@ PINK = (255, 192, 203)
 
 # Display constants
 GRID_SIZE = 20
-NODE_SIZE = 19
+NODE_SIZE = 16
 ROWS = 60
 COLS = 60
 FPS = 60
-BARRIER_CHANCE = 0.3
+BARRIER_CHANCE = 0
 
 # section sizes
 EXTRA_WIDTH_PX = 200

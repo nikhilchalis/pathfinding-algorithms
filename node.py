@@ -1,5 +1,6 @@
 from constants import *
 import pygame as pg
+import numpy as np
 
 # node state colours
 NODE_STATES = {
@@ -18,19 +19,25 @@ NODE_STATES = {
 
 
 class Node:
-    def __init__(self, row, col, state='free'):
+    def __init__(self, row, col, offset, state='free'):
         self.row = row
         self.col = col
-        self.x = row * GRID_SIZE + WIDTH_OFFSET_PX
-        self.y = col * GRID_SIZE + HEIGHT_OFFSET_PX
+        
+        self.y = col * GRID_SIZE + GRID_SIZE * np.sqrt(3)/2 + HEIGHT_OFFSET_PX
         self.state = state
         self.colour = NODE_STATES[state]
         self.neighbours = []
         self.distance = float('inf')
         self.previous = None
+
+        if offset:
+            self.x = row * GRID_SIZE + WIDTH_OFFSET_PX + GRID_SIZE/2
+        else:
+            self.x = row * GRID_SIZE + WIDTH_OFFSET_PX
+
     
     def draw(self, screen):
-        pg.draw.rect(screen, self.colour, (self.x, self.y, NODE_SIZE, NODE_SIZE))
+        pg.draw.circle(screen, self.colour, (self.x, self.y), NODE_SIZE/2)
 
     def change_state(self, new_state):
         self.state = new_state
