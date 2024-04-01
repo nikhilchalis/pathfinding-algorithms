@@ -1,4 +1,5 @@
 from constants import *
+import pygame as pg
 
 # node state colours
 NODE_STATES = {
