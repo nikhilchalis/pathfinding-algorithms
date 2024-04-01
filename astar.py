@@ -1,5 +1,6 @@
 from setup import *
 import pygame as pg
+import numpy as np
 
 EDGE_DISTANCE = 1
 
@@ -21,7 +22,7 @@ procedure Dijkstra(G, s)
                 prev[v] := u
 '''
 
-def dijkstra(screen, grid, start, end):
+def astar(screen, grid, start, end, search_aggression=1):
     # initialising
     clock = pg.time.Clock()
     priority_Q = []
@@ -60,9 +61,9 @@ def dijkstra(screen, grid, start, end):
                 neighbour.draw(screen)
                 #display_grid(screen, grid)
                 pg.display.update()
-
-                if neighbour.distance > u_node.distance + EDGE_DISTANCE:
-                    neighbour.distance = u_node.distance + EDGE_DISTANCE
+                h_distance = heurisic(neighbour, end, aggression=search_aggression)
+                if neighbour.distance > u_node.distance + EDGE_DISTANCE + h_distance:
+                    neighbour.distance = u_node.distance + EDGE_DISTANCE + h_distance
                     neighbour.previous = u_node
         
        #clock.tick(FPS)
@@ -80,7 +81,15 @@ def dijkstra(screen, grid, start, end):
     
 
     
-
+def heurisic(node, destination, aggression=1):
+    if aggression == 1:
+        distance = np.sqrt((node.x - destination.x)**2 + (node.y - destination.y)**2)
+    elif aggression == 2:
+        distance = (node.x - destination.x)**2 + (node.y - destination.y)**2
+    elif aggression == 3:
+        distance = ((node.x - destination.x)**2 + (node.y - destination.y)**2)**2
+    
+    return distance
 
 
 
