@@ -15,11 +15,12 @@ def main():
     grid = make_grid(barrier_chance=BARRIER_CHANCE)
     display_grid(screen, grid)
 
-    start_button = Button(BUTTON_X, FIRST_BUTTON_Y, BUTTON_WIDTH, BUTTON_HEIGHT, "Start", GREY)
-    reset_button = Button(BUTTON_X, SECOND_BUTTON_Y, BUTTON_WIDTH, BUTTON_HEIGHT, "Reset", GREY)
-    regen_button = Button(BUTTON_X, THIRD_BUTTON_Y, BUTTON_WIDTH, BUTTON_HEIGHT, "Regen", GREY)
-    
-    buttons = [reset_button, regen_button, start_button]
+    start_button = Button(BUTTON_X, FIRST_BUTTON_Y, BUTTON_WIDTH, BUTTON_HEIGHT, "Find Path", YELLOW)
+    reset_button = Button(BUTTON_X, RESET_BUTTON_Y, BUTTON_WIDTH, BUTTON_HEIGHT, "Reset", LIGHT_GREY)
+    regen_button = Button(BUTTON_X, REGEN_BUTTON_Y, BUTTON_WIDTH, BUTTON_HEIGHT, "Regen", LIGHT_GREY)
+    exit_button = Button(BUTTON_X, EXIT_BUTTON_Y, BUTTON_WIDTH, BUTTON_HEIGHT, "EXIT", LIGHT_RED) 
+
+    buttons = [reset_button, regen_button, start_button, exit_button]
 
     search = False
     start_created = False
@@ -34,31 +35,7 @@ def main():
     while running:
         for event in pg.event.get():
             if event.type == pg.QUIT:
-                running = False
-            elif event.type == pg.KEYDOWN:
-                if event.key == pg.K_RETURN:
-                    if start_created and end_created and not search:
-                        search = True
-                        if use_dijkstra:
-                            dijkstra(screen, grid, start=start, end=end)
-                        else:
-                            astar(screen, grid, start=start, end=end, search_aggression=2)
-                elif event.key == pg.K_r and start_created and end_created:
-                    for row in grid:
-                        for node in row:
-                            if not node.is_barrier():
-                                node.change_state('free')
-                                node.distance = float('inf')
-                                node.previous = None
-                    search = False
-                    start_created = False
-                    end_created = False
-                    start = None
-                    end = None
-                elif event.key == pg.K_g and not start_created and not end_created:
-                    grid = make_grid(barrier_chance=BARRIER_CHANCE)
-                    display_grid(screen, grid)
-            
+                running = False   
             elif reset_button.is_clicked(event):
                     for row in grid:
                         for node in row:
@@ -66,7 +43,7 @@ def main():
                                 node.change_state('free')
                                 node.distance = float('inf')
                                 node.previous = None
-                    print("reset")
+
                     search = False
                     start_created = False
                     end_created = False
@@ -79,7 +56,9 @@ def main():
                 if use_dijkstra:
                     dijkstra(screen, grid, start=start, end=end)
                 else:
-                    astar(screen, grid, start=start, end=end, search_aggression=2)
+                    astar(screen, grid, start=start, end=end, search_aggression=3)
+            elif exit_button.is_clicked(event):
+                running=False
 
             elif event.type == pg.MOUSEBUTTONDOWN:
                 if event.button == 1:
@@ -104,47 +83,6 @@ def main():
                             end_created = True
                             end = grid[col][row]
 
-                
-
-        '''
-        if pg.mouse.get_pressed()[0]:
-            mouse_x, mouse_y = pg.mouse.get_pos()
-            if mouse_x > WIDTH_OFFSET_PX and mouse_x < (WIDTH_OFFSET_PX + GRID_ACTUAL_WIDTH) and mouse_y > HEIGHT_OFFSET_PX and mouse_y < (HEIGHT_OFFSET_PX + GRID_ACTUAL_HEIGHT):
-                row = (mouse_y - HEIGHT_OFFSET_PX) // GRID_SIZE
-                col = (mouse_x - WIDTH_OFFSET_PX) // GRID_SIZE
-                if not start_created:
-                    if grid[col][row].return_state() == 'free' or grid[col][row].return_state() == 'end':
-                        grid[col][row].change_state('start')
-                        start_created = True
-                        start = grid[col][row]
-            elif reset_button.is_clicked():
-                for row in grid:
-                        for node in row:
-                            if not node.is_barrier():
-                                node.change_state('free')
-                                node.distance = float('inf')
-                                node.previous = None
-                search = False
-                start_created = False
-                end_created = False
-                start = None
-                end = None
-            elif regen_button.is_clicked() and not start_created and not end_created:
-                grid = make_grid(barrier_chance=BARRIER_CHANCE)
-        '''
-
-        '''
-        if pg.mouse.get_pressed()[2]:
-            mouse_x, mouse_y = pg.mouse.get_pos()
-
-            row = (mouse_y - HEIGHT_OFFSET_PX) // GRID_SIZE
-            col = (mouse_x - WIDTH_OFFSET_PX) // GRID_SIZE
-            if not end_created:
-                if grid[col][row].return_state() == 'free' or grid[col][row].return_state() == 'start':
-                    grid[col][row].change_state('end')
-                    end_created = True
-                    end = grid[col][row]
-        '''
 
         #screen.fill(BLACK)
         #clock.tick(FPS)
