@@ -6,7 +6,7 @@ NODE_STATES = {
     'start': START,
     'end': END,
     'barrier': BACKGROUND,
-    'path': YELLOW,
+    'path': PATH,
     'search': PURPLE,
     'free': FREE,
     'current': LIGHT_GREY,

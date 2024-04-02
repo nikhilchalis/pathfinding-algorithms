@@ -21,6 +21,7 @@ BACKGROUND = (10, 10, 15)
 FREE = (80, 80, 90)
 START = (70, 70, 255)
 END = (255, 70, 70)
+PATH = (255, 165, 40)
 
 # Display constants
 GRID_SIZE = 10

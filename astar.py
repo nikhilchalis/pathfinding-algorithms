@@ -68,16 +68,21 @@ def astar(screen, grid, start, end, search_aggression=1):
         
        #clock.tick(FPS)
 
+    path = []
     if end.previous == None:
         print('no path found')
+        return path
     else:
         prev = end.previous
-        path = []
         path.append(prev)
+        
         while prev != start:
-            prev.change_state('path')
+            # prev.change_state('path')
             prev = prev.previous
             path.append(prev)
+            
+        path.reverse()
+        return path
     
 
     

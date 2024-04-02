@@ -15,9 +15,9 @@ def main():
     grid = make_grid(barrier_chance=BARRIER_CHANCE)
     display_grid(screen, grid)
 
-    start_button = Button(BUTTON_X, FIRST_BUTTON_Y, BUTTON_WIDTH, BUTTON_HEIGHT, "Find Path", YELLOW)
-    reset_button = Button(BUTTON_X, RESET_BUTTON_Y, BUTTON_WIDTH, BUTTON_HEIGHT, "Reset", LIGHT_GREY)
-    regen_button = Button(BUTTON_X, REGEN_BUTTON_Y, BUTTON_WIDTH, BUTTON_HEIGHT, "Regen", LIGHT_GREY)
+    start_button = Button(BUTTON_X, FIRST_BUTTON_Y, BUTTON_WIDTH, BUTTON_HEIGHT, "Find Path", PATH)
+    reset_button = Button(BUTTON_X, RESET_BUTTON_Y, BUTTON_WIDTH, BUTTON_HEIGHT, "Reset", GREY)
+    regen_button = Button(BUTTON_X, REGEN_BUTTON_Y, BUTTON_WIDTH, BUTTON_HEIGHT, "Regen", GREY)
     exit_button = Button(BUTTON_X, EXIT_BUTTON_Y, BUTTON_WIDTH, BUTTON_HEIGHT, "EXIT", LIGHT_RED) 
 
     buttons = [reset_button, regen_button, start_button, exit_button]
@@ -56,7 +56,14 @@ def main():
                 if use_dijkstra:
                     dijkstra(screen, grid, start=start, end=end)
                 else:
-                    astar(screen, grid, start=start, end=end, search_aggression=3)
+                    path = astar(screen, grid, start=start, end=end, search_aggression=3)
+                    if len(path) == 0:
+                        print('no path found')
+                    else:
+                        for node in path[1:]:
+                            node.change_state('path')
+                            node.draw(screen)
+ 
             elif exit_button.is_clicked(event): 
                 running=False
 
