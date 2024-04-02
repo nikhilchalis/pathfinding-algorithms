@@ -11,7 +11,7 @@ class Button:
         self.colour = colour
 
     def draw(self, screen):
-        pg.draw.rect(screen, self.colour, self.rect)
+        pg.draw.rect(screen, self.colour, self.rect, border_radius=15)
         text_surface = font.render(self.text, True, BLACK)
         text_rect = text_surface.get_rect(center=self.rect.center)
         screen.blit(text_surface, text_rect)
