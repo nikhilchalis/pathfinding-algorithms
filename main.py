@@ -10,7 +10,7 @@ def main():
     screen = pg.display.set_mode((ACTUAL_WIDTH, ACTUAL_HEIGHT))
     pg.display.set_caption("Pathfinding algorithm visualisations")
     clock = pg.time.Clock()
-    screen.fill(BLACK)
+    screen.fill(BACKGROUND)
 
     grid = make_grid(barrier_chance=BARRIER_CHANCE)
     display_grid(screen, grid)
@@ -39,7 +39,7 @@ def main():
             elif reset_button.is_clicked(event):
                     for row in grid:
                         for node in row:
-                            if not node.is_barrier():
+                            if not node.is_barrier() and not node.is_none():
                                 node.change_state('free')
                                 node.distance = float('inf')
                                 node.previous = None
@@ -57,34 +57,37 @@ def main():
                     dijkstra(screen, grid, start=start, end=end)
                 else:
                     astar(screen, grid, start=start, end=end, search_aggression=3)
-            elif exit_button.is_clicked(event):
+            elif exit_button.is_clicked(event): 
                 running=False
 
             elif event.type == pg.MOUSEBUTTONDOWN:
                 if event.button == 1:
                     mouse_x, mouse_y = pg.mouse.get_pos()
                     if mouse_x > WIDTH_OFFSET_PX and mouse_x < (WIDTH_OFFSET_PX + GRID_ACTUAL_WIDTH) and mouse_y > HEIGHT_OFFSET_PX and mouse_y < (HEIGHT_OFFSET_PX + GRID_ACTUAL_HEIGHT):
-                        row = (mouse_y - HEIGHT_OFFSET_PX) // GRID_SIZE
-                        col = (mouse_x - WIDTH_OFFSET_PX) // GRID_SIZE
+                        row = int((mouse_y - HEIGHT_OFFSET_PX) // (GRID_SIZE* np.sqrt(3)))
+                        col = int((mouse_x - WIDTH_OFFSET_PX) // (GRID_SIZE))
                         if not start_created:
                             if grid[col][row].return_state() == 'free' or grid[col][row].return_state() == 'end':
                                 grid[col][row].change_state('start')
                                 start_created = True
                                 start = grid[col][row]
+                                #start.update_neighbours(grid)
+                                #start.display_neighbours(screen)
+
                 
                 if event.button == 3:
-                    mouse_x, mouse_y = pg.mouse.get_pos()
+                    if mouse_x > WIDTH_OFFSET_PX and mouse_x < (WIDTH_OFFSET_PX + GRID_ACTUAL_WIDTH) and mouse_y > HEIGHT_OFFSET_PX and mouse_y < (HEIGHT_OFFSET_PX + GRID_ACTUAL_HEIGHT):
+                        mouse_x, mouse_y = pg.mouse.get_pos()
+                        row = int((mouse_y - HEIGHT_OFFSET_PX) // (GRID_SIZE* np.sqrt(3)))
+                        col = int((mouse_x - WIDTH_OFFSET_PX) // (GRID_SIZE))
+                        if not end_created:
+                            if grid[col][row].return_state() == 'free' or grid[col][row].return_state() == 'start':
+                                grid[col][row].change_state('end')
+                                end_created = True
+                                end = grid[col][row]
 
-                    row = (mouse_y - HEIGHT_OFFSET_PX) // GRID_SIZE
-                    col = (mouse_x - WIDTH_OFFSET_PX) // GRID_SIZE
-                    if not end_created:
-                        if grid[col][row].return_state() == 'free' or grid[col][row].return_state() == 'start':
-                            grid[col][row].change_state('end')
-                            end_created = True
-                            end = grid[col][row]
 
-
-        #screen.fill(BLACK)
+        #screen.fill(BACKGROUND)
         #clock.tick(FPS)
         display_grid(screen, grid)
         display_buttons(screen, buttons_list=buttons)

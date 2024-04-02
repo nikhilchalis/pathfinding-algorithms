@@ -28,7 +28,7 @@ def dijkstra(screen, grid, start, end):
     visited = set()
     for row in grid:
         for node in row:
-            if not node.is_barrier():
+            if not node.is_barrier() and not node.is_none():
                 node.distance = float('inf')
                 node.previous = None
                 priority_Q.append(node)

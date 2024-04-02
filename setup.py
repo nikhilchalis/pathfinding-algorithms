@@ -9,12 +9,10 @@ def make_grid(barrier_chance=0.25):
         grid.append([])
         for j in range(ROWS):
             if (i+j)%2 == 1:
-                grid[i].append(None)
+                node = Node(i, j, state='none')
+                grid[i].append(node)
             else:
-                if i % 2 == 0:
-                    node = Node(i, j, offset=False)
-                else:
-                    node = Node(i, j, offset=True)
+                node = Node(i, j)
                 
                 # randomly assigning barrier
                 random_number = random.random()
@@ -29,7 +27,7 @@ def make_grid(barrier_chance=0.25):
 def display_grid(screen, grid):
     for row in grid:
         for node in row:
-            if node is not None:
+            if node.state != 'none':
                 node.draw(screen)
     
     pg.display.update()
