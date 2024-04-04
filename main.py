@@ -18,9 +18,10 @@ def main():
     start_button = Button(BUTTON_X, FIRST_BUTTON_Y, BUTTON_WIDTH, BUTTON_HEIGHT, "Find Path", PATH)
     reset_button = Button(BUTTON_X, RESET_BUTTON_Y, BUTTON_WIDTH, BUTTON_HEIGHT, "Reset", GREY)
     regen_button = Button(BUTTON_X, REGEN_BUTTON_Y, BUTTON_WIDTH, BUTTON_HEIGHT, "Regen", GREY)
-    exit_button = Button(BUTTON_X, EXIT_BUTTON_Y, BUTTON_WIDTH, BUTTON_HEIGHT, "EXIT", LIGHT_RED) 
+    exit_button = Button(BUTTON_X, EXIT_BUTTON_Y, BUTTON_WIDTH, BUTTON_HEIGHT, "EXIT", LIGHT_RED)
+    toggle_button = Button(BUTTON_X, TOGGLE_BUTTON_Y, BUTTON_WIDTH, BUTTON_HEIGHT, "Toggle", LIGHT_GREY)
 
-    buttons = [reset_button, regen_button, start_button, exit_button]
+    buttons = [reset_button, regen_button, start_button, exit_button, toggle_button]
 
     search = False
     start_created = False
@@ -35,7 +36,9 @@ def main():
     while running:
         for event in pg.event.get():
             if event.type == pg.QUIT:
-                running = False   
+                running = False
+            elif toggle_button.is_clicked(event):
+                use_dijkstra = not use_dijkstra 
             elif reset_button.is_clicked(event):
                     for row in grid:
                         for node in row:
